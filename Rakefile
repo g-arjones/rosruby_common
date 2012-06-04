@@ -1,4 +1,5 @@
-Dir.glob('**/Rakefile').each{|r| import r}
+import 'rosruby_actionlib/Rakefile'
+import 'rosruby_tf/Rakefile'
 
 task :default do
   # for ci use different URI for parallel test.
