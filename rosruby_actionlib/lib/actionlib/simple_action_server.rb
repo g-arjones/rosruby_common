@@ -35,9 +35,7 @@ module Actionlib
     # Publishes feedback.
     # @param [ROS::Message] feedback actionlib feedback.
     def publish_feedback(feedback)
-      @current_handle.publish_feedback(Actionlib_msgs::GoalStatus::ACTIVE,
-                                       feedback,
-                                       @current_handle.goal_id)
+      @current_handle.publish_feedback(feedback)
     end
 
     # set 'this is succeeded' with a result.

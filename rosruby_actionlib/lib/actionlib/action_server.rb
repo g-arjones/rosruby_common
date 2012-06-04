@@ -169,10 +169,10 @@ module Actionlib
     # @param [ROS::Message] feedback actionlib feedback.
     # @param [Actionlib_msgs::GoalID] goal_id goal id.
     def publish_feedback(status, feedback, goal_id)
-      action_feedback = @result_class.new
+      action_feedback = @feedback_class.new
       action_feedback.header.stamp = ROS::Time::now
       action_feedback.feedback = feedback
-      action_feedback.status = status
+      action_feedback.status.status = status
       action_feedback.status.goal_id = goal_id
       @feedback_publisher.publish(action_feedback)
       set_status(goal_id, status)
