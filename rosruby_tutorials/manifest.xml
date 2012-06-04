@@ -9,6 +9,8 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/rosruby_tutorials</url>
   <depend package="rosruby"/>
+  <depend package="rosruby_tf"/>
+  <depend package="rosruby_actionlib"/>
   <depend package="roscpp_tutorials"/>
   <depend package="std_msgs"/>
 

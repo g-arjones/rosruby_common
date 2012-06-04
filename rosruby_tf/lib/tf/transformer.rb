@@ -97,7 +97,13 @@ module Tf
       @transforms = {}
     end
 
-    def find_transform(frame_id, stamp)
+    def find_transform(frame_id, stamp=nil)
+      p "frame_id = #{frame_id}"
+      p "stamp = #{stamp}"
+      p "@transforms[frame_id] = #{@transforms[frame_id]}"
+      if not @transforms[frame_id]
+        return nil
+      end
       if not stamp or stamp == ROS::Time.new
         # latest
         @transforms[frame_id].last
@@ -112,12 +118,12 @@ module Tf
     end
 
     def add_transform(trans)
-      if @transform[trans.frame_id]
+      if @transforms[trans.frame_id]
         @transforms[trans.frame_id].push(trans)
       else
-        @transform[trans.frame_id] = [trans]
-        if @transform[trans.frame_id].length > @max_buffer_length
-          @transform[trans.frame_id].shift
+        @transforms[trans.frame_id] = [trans]
+        if @transforms[trans.frame_id].length > @max_buffer_length
+          @transforms[trans.frame_id].shift
         end
       end
       # it is better to set parent again?
