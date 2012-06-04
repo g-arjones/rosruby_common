@@ -1,8 +1,9 @@
 rosruby_common
 ==============
 
-rosruby common libraries (tf/actionlib/tutorial).
-These are experimental now.
+[rosruby](https://github.com/OTL/rosruby) common libraries (tf/actionlib/tutorial).
+
+These are experimental for now.
 
 tf
 --------------------
