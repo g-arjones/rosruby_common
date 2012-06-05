@@ -17,7 +17,7 @@ class TestTfBroadcaster < Test::Unit::TestCase
     sleep 1
 
     now = ROS::Time::now
-    tf_broadcaster.send_transform([1.0, 2.0, 3.0], [0.0,0.0,0.0,1.0], now, '/child', '/parent')
+    tf_broadcaster.send_transform([1.0, 2.0, 3.0], [0.0,0.0,0.0,1.0], now, '/parent', '/child')
     sleep 1
     node.spin_once
 

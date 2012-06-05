@@ -10,7 +10,7 @@ module Tf
       @publisher = node.advertise("/tf", TfMessage, :no_resolve=>true)
     end
 
-    def send_transform(translation, rotation, time, child, parent)
+    def send_transform(translation, rotation, time, parent, child)
       ts_msg = Geometry_msgs::TransformStamped.new
       ts_msg.header.frame_id = parent
       ts_msg.header.stamp = time

@@ -13,12 +13,12 @@ class TestTransformer < Test::Unit::TestCase
     #       |           |
     #       |           -- frame3
     #       -- framea ---- frameb
-    @root = Tf::Transform.new('/root', [0, 0, 0], [0, 0, 0, 1], nil)
-    @frame1 = Tf::Transform.new('/frame1', [1, 0, 0], [0, 0, 0, 1], @root)
-    @frame2 = Tf::Transform.new('/frame2', [1, 0, 0], [0, 0, 0, 1], @frame1)
-    @frame3 = Tf::Transform.new('/frame3', [0, -1, 0], [0, 0, 0, 1], @frame1)
-    @framea = Tf::Transform.new('/framea', [-1, 0, 0], [0, 0, 0, 1], @root)
-    @frameb = Tf::Transform.new('/frameb', [1, 1, 0], [0, 0, 0, 1], @framea)
+    @root = Tf::Transform.new([0, 0, 0], [0, 0, 0, 1], nil, '/root')
+    @frame1 = Tf::Transform.new([1, 0, 0], [0, 0, 0, 1], @root, '/frame1')
+    @frame2 = Tf::Transform.new([1, 0, 0], [0, 0, 0, 1], @frame1, '/frame2')
+    @frame3 = Tf::Transform.new([0, -1, 0], [0, 0, 0, 1], @frame1, '/frame3')
+    @framea = Tf::Transform.new([-1, 0, 0], [0, 0, 0, 1], @root, '/framea')
+    @frameb = Tf::Transform.new([1, 1, 0], [0, 0, 0, 1], @framea, '/frameb')
   end
 
   def test_root
@@ -38,5 +38,27 @@ class TestTransformer < Test::Unit::TestCase
     puts @framea.get_transform_to(@frame3)
     puts @frame3.get_transform_to(@framea)
     puts @root.get_transform_to(@frame3)
+  end
+end
+
+class TestTransformBuffer < Test::Unit::TestCase
+  def test_initialize
+    buf = Tf::TransformBuffer.new(10)
+    assert_equal(10, buf.max_buffer_length)
+    buf.max_buffer_length = 100
+    assert_equal(100, buf.max_buffer_length)
+  end
+
+  def test_add_find_transform
+    buf = Tf::TransformBuffer.new(100)
+    trans = Tf::Transform.new([0.1, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0], nil, '/base', ROS::Time.new)
+    now = ROS::Time.now
+    trans_now = Tf::Transform.new([0.1, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0], nil, '/base', now)
+#    assert(!buf.find_transform('/base'))
+    buf.add_transform(trans)
+    assert_equal(trans, buf.find_transform('/base'))
+    buf.add_transform(trans_now)
+    assert_equal(trans_now, buf.find_transform('/base'))
+    assert_equal(trans, buf.find_transform('/base', now))
   end
 end

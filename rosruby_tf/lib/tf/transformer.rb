@@ -1,4 +1,4 @@
-#
+# tf/transformer.rb
 #
 #
 require 'tf/quaternion'
@@ -14,6 +14,19 @@ module Tf
 
   class Transform
 
+    # @param [Transform] parent
+    # @param [String] frame_id
+    # @param [ROS::Time] stamp
+    def initialize(pos=[0.0, 0.0, 0.0],
+                   rot=[0.0, 0.0, 0.0, 1.0],
+                   parent=nil, frame_id='', stamp=nil)
+      @frame_id = frame_id
+      @parent = parent
+      @pos = pos
+      @rot = rot
+      @stamp = stamp
+    end
+
     def to_matrix
       q = Quaternion.new(*@rot)
       mat = q.to_matrix
@@ -23,23 +36,20 @@ module Tf
       mat
     end
 
-    def initialize(frame_id, pos, rot, parent)
-      @frame_id = frame_id
-      @parent = parent
-      @pos = pos
-      @rot = rot
-      @stamp = nil
-    end
-
     def to_s
-      @frame_id
+      if @parent
+        "#{@frame_id} <= #{@parent.frame_id} : [#{@pos.join(",")}, #{@rot.join(",")}]"
+      else
+        "#{@frame_id} <= ROOT : [#{@pos.join(",")}, #{@rot.join(",")}]"
+      end
     end
 
     def get_path(target)
       target_path = target.find_root
       self_path = self.find_root
-      if target_path.last == self_path.last
-        while target_path.last == self_path.last
+      # same root
+      if target_path.last.frame_id == self_path.last.frame_id
+        while (not target_path.empty?) and (not self_path.empty?) and (target_path.last.frame_id == self_path.last.frame_id) do
           root = target_path.last
           target_path.pop
           self_path.pop
@@ -66,15 +76,13 @@ module Tf
 
     def get_transform_to(target)
       path = get_path(target)
-      transform = Matrix::identity(4)
       if path
+        transform = Matrix::identity(4)
         for i in 0..(path.length-2)
-          current_frame = path[i]
-          next_frame = path[i+1]
-          if current_frame.parent == next_frame
-            transform *= current_frame.to_matrix.inverse
+          if path[i].parent == path[i+1]
+            transform *= path[i].to_matrix.inverse
           else # this means next's parent is current
-            transform *= next_frame.to_matrix
+            transform *= path[i+1].to_matrix
           end
         end
         transform
@@ -92,24 +100,26 @@ module Tf
   end
 
   class TransformBuffer
-    def initialize
-      @max_buffer_length = 100
+
+    def initialize(max_buffer_length=100)
+      @max_buffer_length = max_buffer_length
       @transforms = {}
     end
 
+    attr_accessor :max_buffer_length
+
     def find_transform(frame_id, stamp=nil)
-      p "frame_id = #{frame_id}"
-      p "stamp = #{stamp}"
-      p "@transforms[frame_id] = #{@transforms[frame_id]}"
       if not @transforms[frame_id]
-        return nil
+        return Transform.new([0.0, 0.0, 0.0],
+                             [0.0, 0.0, 0.0, 1.0],
+                             nil, frame_id, stamp)
       end
       if not stamp or stamp == ROS::Time.new
         # latest
-        @transforms[frame_id].last
+        return @transforms[frame_id].last
       else
         @transforms[frame_id].each do |trans|
-          if stamp > trans.stamp
+          if stamp >= trans.stamp
             return trans
           end
         end
@@ -120,11 +130,11 @@ module Tf
     def add_transform(trans)
       if @transforms[trans.frame_id]
         @transforms[trans.frame_id].push(trans)
-      else
-        @transforms[trans.frame_id] = [trans]
         if @transforms[trans.frame_id].length > @max_buffer_length
           @transforms[trans.frame_id].shift
         end
+      else
+        @transforms[trans.frame_id] = [trans]
       end
       # it is better to set parent again?
     end
