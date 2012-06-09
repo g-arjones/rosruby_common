@@ -33,11 +33,15 @@ module Tf
     end
 
     def lookup_transform(from_id, to_id, stamp=nil)
-
       from = @transform_buffer.find_transform(from_id, stamp)
       to = @transform_buffer.find_transform(to_id, stamp)
       if from and to
-        from.get_transform_to(to)
+        result = from.get_transform_to(to)
+        if result
+          Transform.from_matrix(result, from_id, to_id, stamp)
+        else
+          nil
+        end
       else
         nil
       end

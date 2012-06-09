@@ -11,7 +11,6 @@ class Matrix
 end
 
 module Tf
-
   class Transform
 
     # @param [Transform] parent
@@ -25,6 +24,12 @@ module Tf
       @pos = pos
       @rot = rot
       @stamp = stamp
+    end
+
+    def self.from_matrix(mat, parent=nil, frame_id='', stamp=nil)
+      q = Quaternion.from_matrix(mat)
+      Transform.new([mat[0,3], mat[1,3], mat[2,3]],
+                    q.to_a, parent, frame_id, stamp)
     end
 
     def to_matrix
