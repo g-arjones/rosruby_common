@@ -5,6 +5,8 @@ find_package(catkin REQUIRED COMPONENTS rosruby)
 
 rosruby_setup()
 
+rosruby_generate_messages(actionlib_msgs)
+
 catkin_package(
   CATKIN_DEPENDS rosruby
   )
