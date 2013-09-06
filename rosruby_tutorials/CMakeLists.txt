@@ -1,10 +1,14 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rosruby_tutorials)
-find_package(catkin REQUIRED COMPONENTS rosruby rosruby_tf rosruby_actionlib roscpp_tutorials std_msgs)
+find_package(catkin REQUIRED COMPONENTS rosruby)
 
 catkin_package(
-  DEPENDS rosruby
+  DEPENDS rosruby rosruby_actionlib rosruby_tf
   )
+
+rosruby_setup()
+
+rosruby_generate_messages(actionlib_tutorials)
 
 install(PROGRAMS
   nodes/add_two_ints_client.rb

@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'ros'
-ROS::load_manifest("rosruby_actionlib")
 require 'actionlib/simple_action_client'
 require 'actionlib_tutorials/FibonacciAction'
 

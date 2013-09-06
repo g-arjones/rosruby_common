@@ -1,8 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'ros'
-ROS::load_manifest('rosruby_tutorials')
-
 require 'roscpp_tutorials/TwoInts'
 
 if ARGV.length < 2

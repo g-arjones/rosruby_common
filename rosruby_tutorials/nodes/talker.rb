@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'ros'
-ROS::load_manifest('rosruby_tutorials')
 require 'std_msgs/String'
 
 node = ROS::Node.new('/rosruby/sample_publisher')

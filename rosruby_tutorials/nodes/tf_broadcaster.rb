@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'ros'
-ROS::load_manifest('rosruby_tutorials')
 require 'tf/broadcaster'
 
 node = ROS::Node.new('/tf_broadcaster')
@@ -13,15 +12,15 @@ while node.ok?
   tf_broadcaster.send_transform([0.5, 0.0, 0.0],
                                 [0.0, 0.0, 0.0, 1.0],
                                 now,
-                                '/base', '/shoulder')
+                                'base', 'shoulder')
   tf_broadcaster.send_transform([0.0, -0.2, 0.0],
                                 [0.0, 0.0, 0.0, 1.0],
                                 now,
-                                '/shoulder', '/hand')
+                                'shoulder', 'hand')
   tf_broadcaster.send_transform([0.0, 0.1, 0.1],
                                 [0.0, 0.0, 0.0, 1.0],
                                 now,
-                                '/hand', '/head')
+                                'hand', 'head')
 
   r.sleep
 
