@@ -43,6 +43,7 @@ module Tf
 
     def to_s
       if @parent
+        puts @parent
         "#{@frame_id} <= #{@parent.frame_id} : [#{@pos.join(",")}, #{@rot.join(",")}]"
       else
         "#{@frame_id} <= ROOT : [#{@pos.join(",")}, #{@rot.join(",")}]"

@@ -1,5 +1,5 @@
 require 'ros'
-require 'tf/tfMessage'
+require 'tf2_msgs/TFMessage'
 require 'geometry_msgs/TransformStamped'
 
 module Tf
@@ -7,7 +7,7 @@ module Tf
   class TransformBroadcaster
 
     def initialize(node)
-      @publisher = node.advertise("/tf", TfMessage, :no_resolve=>true)
+      @publisher = node.advertise("/tf", Tf2_msgs::TFMessage, :no_resolve=>true)
     end
 
     def send_transform(translation, rotation, time, parent, child)

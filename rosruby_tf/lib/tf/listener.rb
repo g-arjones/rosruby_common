@@ -1,13 +1,13 @@
 require 'ros'
 require 'tf/transformer'
-require 'tf/tfMessage'
+require 'tf2_msgs/TFMessage'
 require 'geometry_msgs/TransformStamped'
 
 module Tf
   class TransformListener
     def initialize(node)
       @transform_buffer = TransformBuffer.new
-      @subscriber = node.subscribe("/tf", TfMessage) do |tf_msg|
+      @subscriber = node.subscribe("/tf", Tf2_msgs::TFMessage) do |tf_msg|
         tf_msg.transforms.each do |tf|
           parent = @transform_buffer.find_transform(tf.header.frame_id,
                                                     tf.header.stamp)
@@ -38,7 +38,7 @@ module Tf
       if from and to
         result = from.get_transform_to(to)
         if result
-          Transform.from_matrix(result, from_id, to_id, stamp)
+          Transform.from_matrix(result, from, to_id, stamp)
         else
           nil
         end
