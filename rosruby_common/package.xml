@@ -1,0 +1,21 @@
+<package>
+  <name>rosruby_common</name>
+  <version>0.1.0</version>
+  <description>rosruby</description>
+  <maintainer email="t.ogura@gmail.com">Takashi Ogura</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/rosruby</url>
+  <url type="bugtracker">http://github.com/OTL/rosruby_common</url>
+
+  <author>Maintained by Takashi Ogura</author>
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>rosruby_actionlib</run_depend>
+  <run_depend>rosruby_tf</run_depend>
+  <run_depend>rosruby_tutorials</run_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>
