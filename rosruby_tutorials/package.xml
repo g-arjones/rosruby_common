@@ -1,6 +1,6 @@
 <package>
   <name>rosruby_tutorials</name>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <description>rosruby_tutorials contains source codes of rosruby tutorials.</description>
   <maintainer email="t.ogura@gmail.com">Takashi Ogura</maintainer>
 
