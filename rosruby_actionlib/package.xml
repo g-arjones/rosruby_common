@@ -1,6 +1,6 @@
 <package>
   <name>rosruby_actionlib</name>
-  <version>0.1.0</version>
+  <version>0.1.2</version>
   <description>actionlib for rosruby.</description>
   <maintainer email="t.ogura@gmail.com">Takashi Ogura</maintainer>
 
@@ -13,6 +13,8 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>rosruby</build_depend>
+  <build_depend>actionlib_msgs</build_depend>
+
   <run_depend>rosruby</run_depend>
   <run_depend>actionlib_msgs</run_depend>
   <test_depend>actionlib_tutorials</test_depend>

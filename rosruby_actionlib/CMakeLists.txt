@@ -8,7 +8,7 @@ rosruby_setup()
 rosruby_generate_messages(actionlib_msgs)
 
 catkin_package(
-  CATKIN_DEPENDS rosruby
+  CATKIN_DEPENDS rosruby actionlib_msgs
   )
 
 rosruby_add_libraries(
