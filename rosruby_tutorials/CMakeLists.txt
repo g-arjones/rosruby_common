@@ -9,6 +9,9 @@ add_service_files(FILES
 
 generate_messages()
 
+# this adds PYTHONPATH (for deb build)
+catkin_python_setup()
+
 catkin_package(
   DEPENDS rosruby rosruby_actionlib message_runtime
   )
