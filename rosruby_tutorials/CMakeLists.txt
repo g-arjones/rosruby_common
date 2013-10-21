@@ -3,24 +3,22 @@ project(rosruby_tutorials)
 find_package(catkin REQUIRED COMPONENTS rosruby genrb message_generation)
 
 # generate srv from source
-add_service_files(FILES
-  TwoInts.srv
-  )
+# (this fails in build farm)
+#add_service_files(FILES
+#  TwoInts.srv
+#  )
 
-generate_messages()
-
-# this adds PYTHONPATH (for deb build)
-catkin_python_setup()
+#generate_messages()
 
 catkin_package(
-  DEPENDS rosruby rosruby_actionlib message_runtime
+  DEPENDS rosruby rosruby_actionlib actionlib_tutorials roscpp_tutorials geometry_msgs message_runtime
   )
 
 rosruby_setup()
 
 # if you want to generate msg/srv from binary package, 
 # rosruby_generate_messages macro is useful.
-rosruby_generate_messages(actionlib_tutorials geometry_msgs)
+rosruby_generate_messages(actionlib_tutorials geometry_msgs roscpp_tutorials)
 
 install(PROGRAMS
   nodes/add_two_ints_client.rb

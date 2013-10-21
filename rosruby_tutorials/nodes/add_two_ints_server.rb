@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
 require 'ros'
-require 'rosruby_tutorials/TwoInts'
+require 'roscpp_tutorials/TwoInts'
 
 node = ROS::Node.new('sample_service_server')
 node.advertise_service('/add_two_ints',
-                       Rosruby_tutorials::TwoInts) do |req, res|
+                       Roscpp_tutorials::TwoInts) do |req, res|
   res.sum = req.a + req.b
   node.loginfo("a=#{req.a}, b=#{req.b}")
   node.loginfo("  sum = #{res.sum}")
