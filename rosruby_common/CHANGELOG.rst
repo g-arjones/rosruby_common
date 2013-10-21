@@ -2,6 +2,9 @@
 Changelog for package rosruby_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.3 (2013-10-21)
+------------------
+
 0.1.2 (2013-10-20)
 ------------------
 * update rosruby_actionlib
