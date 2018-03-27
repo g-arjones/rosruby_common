@@ -5,7 +5,12 @@ find_package(catkin REQUIRED COMPONENTS rosruby)
 
 rosruby_setup()
 
-rosruby_generate_messages(actionlib_msgs)
+set(ROSRUBY_MSGS actionlib_msgs)
+if (CATKIN_ENABLE_TESTING)
+  list(APPEND ROSRUBY_MSGS actionlib_tutorials)
+endif()
+
+rosruby_generate_messages(${ROSRUBY_MSGS})
 
 catkin_package(
   CATKIN_DEPENDS rosruby actionlib_msgs
