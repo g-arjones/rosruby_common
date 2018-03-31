@@ -45,7 +45,7 @@ class TestActionServer < Test::Unit::TestCase
     goal_publisher.publish(goal)
 
     begin
-      timeout(3.0) do
+      Timeout.timeout(3.0) do
 	while not @order or not @result
 	  sleep 0.5
 	  node.spin_once

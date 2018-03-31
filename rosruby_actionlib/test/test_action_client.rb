@@ -44,7 +44,7 @@ class TestActionClient < Test::Unit::TestCase
     handle = client.send_goal(goal)
 
     begin
-      timeout(3.0) do
+      Timeout.timeout(3.0) do
         while not @goal
           sleep 0.5
           node.spin_once

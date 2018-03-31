@@ -43,7 +43,7 @@ module Actionlib
     # @return [Bool] true: result has come, false: timeouted.
     def wait_for_result(timeout_sec=10.0)
       begin
-	timeout(timeout_sec) do
+	Timeout.timeout(timeout_sec) do
 	  while not @result
 	    sleep 0.1
 	    @client.spin_once
@@ -162,7 +162,7 @@ module Actionlib
     # @return [Bool] true: result has come, false: timeouted.
     def wait_for_server(timeout_sec=10.0)
       begin
-	timeout(timeout_sec) do
+	Timeout.timeout(timeout_sec) do
 	  while not @last_status
 	    sleep 0.1
 	    @node.spin_once
